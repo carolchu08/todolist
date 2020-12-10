@@ -70,4 +70,18 @@ public class TodoLabelServiceTest {
         assertEquals("Todo item label is not found",exception.getMessage());
 
     }
+    @Test
+    public void should_return_new_todo_label_when_createTodo_given_new_todo_label() {
+        //given
+
+        TodoLabel expected = new TodoLabel("1","Sports", "red");
+
+        //when
+        when(todoLabelRepository.save(expected)).thenReturn(expected);
+
+        //then
+        TodoLabel actual= todoLabelService.createTodoLabel(expected);
+        assertEquals(expected,actual);
+
+    }
 }
