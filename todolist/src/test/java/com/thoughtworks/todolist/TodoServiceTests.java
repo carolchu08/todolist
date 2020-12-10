@@ -4,6 +4,7 @@ import com.thoughtworks.todolist.model.Todo;
 import com.thoughtworks.todolist.model.TodoLabel;
 import com.thoughtworks.todolist.repository.TodoRepository;
 import com.thoughtworks.todolist.service.TodoService;
+import com.thoughtworks.todolist.todoNotFoundException.TodoNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -45,7 +46,7 @@ public class TodoServiceTests {
 
     }
     @Test
-    public void should_return_one_todo_when_getOneTodo_given_todo() {
+    public void should_return_one_todo_when_getOneTodo_given_todo() throws TodoNotFoundException {
         //given
         List<TodoLabel> labelList = new ArrayList<>();
         Todo expected = new Todo("1","playing sport", false, labelList);
@@ -56,6 +57,20 @@ public class TodoServiceTests {
         //then
         Todo actual = todoService.getOneTodo("1");
         assertEquals(expected,actual);
+
+    }
+    @Test
+    public void should_return_null_when_getOneTodo_given_invalid_todo_id() throws TodoNotFoundException {
+        //given
+        List<TodoLabel> labelList = new ArrayList<>();
+        Todo expectedTodo = new Todo("1","playing sport", false, labelList);
+
+        //when
+        when(todoRepository.findById("2")).thenReturn(Optional.empty());
+        Exception exception = assertThrows(TodoNotFoundException.class, () -> todoService.getOneTodo("2"));
+
+        //then
+        assertEquals("Todo item is not found",exception.getMessage());
 
     }
 
