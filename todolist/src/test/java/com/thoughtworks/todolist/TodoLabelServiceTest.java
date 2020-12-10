@@ -5,6 +5,8 @@ import com.thoughtworks.todolist.model.TodoLabel;
 import com.thoughtworks.todolist.repository.TodoLabelRepository;
 import com.thoughtworks.todolist.service.TodoLabelService;
 import com.thoughtworks.todolist.service.TodoService;
+import com.thoughtworks.todolist.todoNotFoundException.TodoLabelNotFoundException;
+import com.thoughtworks.todolist.todoNotFoundException.TodoNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -14,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -29,7 +32,7 @@ public class TodoLabelServiceTest {
     public void should_return_all_when_getAll_given_allTodo_label() {
         //given
         List<TodoLabel> labelList = new ArrayList<>();
-        List<TodoLabel> expected= Arrays.asList(new TodoLabel("Sports"));
+        List<TodoLabel> expected= Arrays.asList(new TodoLabel("Sports","red"));
 
         //when
         when(todoLabelRepository.findAll()).thenReturn(expected);
@@ -38,6 +41,19 @@ public class TodoLabelServiceTest {
 
         List <TodoLabel> actual = todoLabelService.getAll();
         assertEquals(1, actual.size());
+
+    }
+    @Test
+    public void should_return_one_todo_label_when_getOneTodoLabel_given_todoLabel_id() throws TodoLabelNotFoundException {
+        //given
+        TodoLabel expected = new TodoLabel("1","Sports", "red");
+
+        //when
+        when(todoLabelRepository.findById("1")).thenReturn(Optional.of(expected));
+
+        //then
+        TodoLabel actual = todoLabelService.getOneTodoLabel("1");
+        assertEquals(expected,actual);
 
     }
 }

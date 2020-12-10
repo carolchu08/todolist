@@ -9,9 +9,17 @@ public class TodoLabel {
     @MongoId(FieldType.OBJECT_ID)
     private String labelID;
     private String labelName;
+    private String color;
 
-    public TodoLabel(String labelName) {
+    public TodoLabel(String labelName,String color) {
         this.labelName = labelName;
+        this.color = color;
+    }
+
+    public TodoLabel(String labelID, String labelName, String color) {
+        this.labelID = labelID;
+        this.labelName = labelName;
+        this.color = color;
     }
 
     public TodoLabel() {
@@ -31,5 +39,13 @@ public class TodoLabel {
 
     public void setLabelName(String labelName) {
         this.labelName = labelName;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 }
