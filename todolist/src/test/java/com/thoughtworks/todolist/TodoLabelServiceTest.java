@@ -9,6 +9,7 @@ import com.thoughtworks.todolist.todoNotFoundException.TodoLabelNotFoundExceptio
 import com.thoughtworks.todolist.todoNotFoundException.TodoNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -18,9 +19,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class TodoLabelServiceTest {
@@ -97,4 +97,24 @@ public class TodoLabelServiceTest {
         assertEquals("Todo item label is not found", exception.getMessage());
 
     }
+    @Test
+    public void should_return_update_todo_Label_when_updateTodo_given_todo_Label_id() throws TodoLabelNotFoundException {
+        //given
+        TodoLabel originalLabel = new TodoLabel("1","Sports", "red");
+        TodoLabel updatedLabel = new TodoLabel("1","Food", "red");
+        TodoLabel expected = new TodoLabel("1","Food", "red");
+
+        //when
+        when(todoLabelRepository.findById("1")).thenReturn(Optional.of(originalLabel));
+        todoLabelService.updateTodoLabel("1", updatedLabel);
+        final ArgumentCaptor<TodoLabel> TodoLabelArgumentCaptor = ArgumentCaptor.forClass(TodoLabel.class);
+        verify(todoLabelRepository, times(1)).save(TodoLabelArgumentCaptor.capture());
+        //then
+        final TodoLabel actual = TodoLabelArgumentCaptor.getValue();
+        assertNotNull(actual);
+        assertEquals(expected.getLabelName(), actual.getLabelName());
+        assertEquals(expected.getColor(), actual.getColor());
+
+    }
+
 }
