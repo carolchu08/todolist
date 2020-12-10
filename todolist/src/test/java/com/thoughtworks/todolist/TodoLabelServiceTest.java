@@ -84,4 +84,17 @@ public class TodoLabelServiceTest {
         assertEquals(expected,actual);
 
     }
+    @Test
+    public void should_return_removed_Todo_Label_when_deleteTodoLabel_given_valid_TodoLabelID()  {
+        //given
+
+
+        //when
+
+
+        //then
+        Exception exception = assertThrows(TodoLabelNotFoundException.class, () -> todoLabelService.deleteTodoLabel("123"));
+        assertEquals("Todo item label is not found", exception.getMessage());
+
+    }
 }
