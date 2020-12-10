@@ -73,6 +73,21 @@ public class TodoServiceTests {
         assertEquals("Todo item is not found",exception.getMessage());
 
     }
+    @Test
+    public void should_return_new_todo_when_createTodo_given_new_todo() {
+        //given
+        List<TodoLabel> labelList = new ArrayList<>();
+        Todo expected = new Todo("playing sport",false,labelList);
+                
+        //when
+        when(todoRepository.save(expected)).thenReturn(expected);
+        
+        //then
+        Todo actual= todoService.createTodo(expected);
+        assertEquals(expected,actual);
+        
+    }
+    
 
 
 }
