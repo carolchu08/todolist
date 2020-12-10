@@ -16,8 +16,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -78,6 +77,35 @@ public class TodoLabelIntegrationTest {
         mockMvc.perform(delete("/todoLabel/" + expected.getLabelID()))
                 .andExpect(status().isOk());
         //then
+
+    }
+    @Test
+    public void should_return_update_todo_when_updateTodo_given_valid_id() throws Exception {
+        //given
+
+        TodoLabel todoLabel = new TodoLabel("sport", "red");
+        TodoLabel original = todoLabelRepository.save(todoLabel);
+
+        String updateAsJson = "  {\n" +
+                "        \"labelName\": \"food\",\n" +
+                "        \"color\": \"red\"\n" +
+                "    }";
+        TodoLabel expected= new TodoLabel("food","red");
+        //when
+
+
+        //then
+        mockMvc
+                .perform(
+                        put("/todoLabel/" + original.getLabelID())
+                                .contentType(APPLICATION_JSON)
+                                .content(updateAsJson)
+                )
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.labelID").isString())
+                .andExpect(jsonPath("$.labelName").value("food"))
+                .andExpect(jsonPath("$.color").value("red"));
 
     }
 

@@ -70,7 +70,7 @@ public class TodoIntegrationTest {
 
 
     }
-    /*@Test
+    @Test
     public void should_return_exception_when_getOneTodo_given_a_invalid_todo_id() throws Exception {
         //given
         List<TodoLabel> labelList = new ArrayList<>();
@@ -83,7 +83,7 @@ public class TodoIntegrationTest {
         this.mockMvc.perform(get("/todos/" + addedTodo.getId()))
                 .andExpect(status().isNotFound());
 
-    }*/
+    }
 
     @Test
     void should_return_removed_todo_when_deleteTodo_given_valid_ID() throws Exception {
