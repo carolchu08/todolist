@@ -87,6 +87,20 @@ public class TodoServiceTests {
         assertEquals(expected,actual);
         
     }
+    @Test
+     public void should_return_removed_Todo_when_deleteTodo_given_valid_TodoID()  {
+        //given
+        
+                
+        //when
+        
+        
+        //then
+        Exception exception = assertThrows(TodoNotFoundException.class, () -> todoService.deleteTodo("123"));
+        assertEquals("Todo item is not found", exception.getMessage());
+        
+    }
+    
     
 
 
