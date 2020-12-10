@@ -1,6 +1,12 @@
 package com.thoughtworks.todolist.model;
 
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.FieldType;
+import org.springframework.data.mongodb.core.mapping.MongoId;
+
+@Document
 public class TodoLabel {
+    @MongoId(FieldType.OBJECT_ID)
     private String labelID;
     private String labelName;
 
