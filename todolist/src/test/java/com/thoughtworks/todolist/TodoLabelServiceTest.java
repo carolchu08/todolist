@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -54,6 +55,19 @@ public class TodoLabelServiceTest {
         //then
         TodoLabel actual = todoLabelService.getOneTodoLabel("1");
         assertEquals(expected,actual);
+
+    }
+    @Test
+    public void should_return_null_when_getOneTodoLabel_given_invalid_todoLabel_id() throws TodoLabelNotFoundException {
+        //given;
+        TodoLabel expected = new TodoLabel("1","Sports", "red");
+
+        //when
+        when(todoLabelRepository.findById("2")).thenReturn(Optional.empty());
+        Exception exception = assertThrows(TodoLabelNotFoundException.class, () -> todoLabelService.getOneTodoLabel("2"));
+
+        //then
+        assertEquals("Todo item label is not found",exception.getMessage());
 
     }
 }
