@@ -100,7 +100,27 @@ public class TodoServiceTests {
         assertEquals("Todo item is not found", exception.getMessage());
         
     }
-    
+    @Test
+    public void should_return_update_todo_when_updateTodo_given_todo_id() throws TodoNotFoundException {
+        //given
+        List<TodoLabel> labelList = new ArrayList<>();
+        Todo originalTodo = new Todo("1","playing sport", false,labelList);
+        Todo updateTodo = new Todo("1","playing sport", true,labelList);
+        Todo expected = new Todo("1","playing sport", true,labelList);
+
+        //when
+        when(todoRepository.findById("1")).thenReturn(Optional.of(originalTodo));
+        todoService.updateTodo("1", updateTodo);
+        final ArgumentCaptor<Todo> TodoArgumentCaptor = ArgumentCaptor.forClass(Todo.class);
+        verify(todoRepository, times(1)).save(TodoArgumentCaptor.capture());
+        //then
+        final Todo actual = TodoArgumentCaptor.getValue();
+        assertNotNull(actual);
+        assertEquals(expected.getText(), actual.getText());
+        assertEquals(expected.getDone(), actual.getDone());
+
+    }
+
     
 
 
