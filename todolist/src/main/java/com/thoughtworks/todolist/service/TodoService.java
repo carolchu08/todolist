@@ -29,10 +29,10 @@ public class TodoService {
         return this.todoRepository.save(newTodo);
     }
 
-    public Todo updateTodo(String id, Todo updateTodo) throws TodoNotFoundException {
+    public Todo updateTodo(String id, Todo todoUpdate) throws TodoNotFoundException {
         this.getOneTodo(id);
-        updateTodo.setId(id);
-        return this.todoRepository.save(updateTodo);
+        todoUpdate.setId(id);
+        return this.todoRepository.save(todoUpdate);
     }
 
     public void deleteTodo(String id) throws TodoNotFoundException {
